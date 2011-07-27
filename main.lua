@@ -56,6 +56,8 @@ local removeBody = function( event )
 
 	if "began" == phase then
         --t:stopAtFrame(2)
+        --t:removeEventListener( "collision", t )
+        t.blownup = true
 		t:play{ startFrame=7, endFrame=15, loop=1, remove=true } 
         audio.play( bombSound )				
 		--t:removeSelf() -- destroy object
@@ -72,17 +74,23 @@ local function hitGrandma (self, event )
 	local phase = event.phase
 
 	if "began" == phase then
-        self:stopAtFrame(2)
-		--t:play{ startFrame=7, endFrame=15, loop=1, remove=true } 
-        audio.play( squishSound )				
-		--t:removeSelf() -- destroy object
-        -- Update Score
-        --score = score + 150
-        --scoreDisplay:setText( score )
-        local gameOverLabel = display.newText( "GAME OVER!", 22, 40, native.systemFont, 40 )
+        if event.other.blownup then
+            --ignore if already blown up
+        else
+            self:stopAtFrame(2)
+            --t:play{ startFrame=7, endFrame=15, loop=1, remove=true } 
+            audio.play( bombSound )				
+            event.other:play{ startFrame=7, endFrame=15, loop=1, remove=true } 
+            audio.play( squishSound )				
+            --t:removeSelf() -- destroy object
+            -- Update Score
+            --score = score + 150
+            --scoreDisplay:setText( score )
+            local gameOverLabel = display.newText( "GAME OVER!", 22, 40, native.systemFont, 40 )
+
+        end
 	end
 
-	-- Stop further propagation of touch event
 end
 local balls = {}
 
