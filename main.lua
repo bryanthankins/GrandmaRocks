@@ -2,8 +2,9 @@
 ---By Bryant Hankins
 
 --TODO
+--1) Support changing scenes to do main menu and levels
+--2) Support pause
 --3) Do Multiple levels (see ghosts vs zombies)
---6) Add collision and explosion graphics (see movieclip or eggbreaker)
 --8) Add splash screen
 
 
@@ -87,6 +88,7 @@ local function hitGrandma (self, event )
             --score = score + 150
             --scoreDisplay:setText( score )
             local gameOverLabel = display.newText( "GAME OVER!", 22, 40, native.systemFont, 40 )
+            physics.pause()
 
         end
 	end
