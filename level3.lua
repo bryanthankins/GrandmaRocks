@@ -56,7 +56,7 @@ function new()
     local squishSound = audio.loadSound("squish_wav.wav")
 
     --Set instructions
-    local instructionLabel = display.newText( "Don't let the rocks hit grandma!", 22, 5, native.systemFont, 17 )
+    local instructionLabel = display.newText( "LEVEL 3", 22, 5, native.systemFont, 17 )
 
     -- Simple score display
     local scoreDisplay = ui.newLabel{
@@ -101,16 +101,12 @@ function new()
         -- Stop further propagation of touch event
         return true
     end
-    local endGame = function( isWin )
+    local endGame = function()
             scoreDisplay:setText("")
             livesDisplay:setText("")
             gameOverLabel.text = ""
             instructionLabel.text = ""
-            if isWin == "yes" then
-                director:changeScene("level2")
-            else
-                director:changeScene("mainmenu")
-            end
+            director:changeScene("mainmenu")
     end
     local callGameOver = function( isWin )
             local isWin = isWin
@@ -124,7 +120,7 @@ function new()
                 grass:stopAtFrame(2)
                 gameOverLabel = display.newText( "GAME OVER!", 22, 60, native.systemFont, 40 )
             end
-            timer.performWithDelay( 3000,endGame( isWin),1 )
+            timer.performWithDelay( 3000,endGame,1 )
     end
 
 	local callNewRound = function()
@@ -158,9 +154,10 @@ function new()
     -- function to drop rocks
     local randomBall = function()
 
+
         imageTable = {}
         for i = 1,6 do
-            table.insert( imageTable, "rock.png" )
+            table.insert( imageTable, "anvil.png" )
         end
         for i = 1,9 do
             table.insert( imageTable, "explode" .. i .. ".png" )
@@ -168,7 +165,7 @@ function new()
 
         local ball = movieclip.newAnim( imageTable )
         ball.x = 40 + math.random( 380 ); ball.y = -40
-        physics.addBody( ball, { density=3.0, friction=0.6, bounce=0.2, radius=33 } )
+        physics.addBody( ball, { density=4.5, friction=0.6, bounce=0.2, radius=33 } )
         ball.angularVelocity = math.random(600) - 300
         ball:addEventListener( "touch", removeBody ) -- assign touch listener to rock
         balls[#balls + 1] = ball	
@@ -183,7 +180,7 @@ function new()
     grass:addEventListener( "collision", grass )
 
     -- run the above function 14 times
-    gameTimer = timer.performWithDelay( 1500, randomBall, 14 )
+    gameTimer = timer.performWithDelay( 750, randomBall, 14 )
 
     return gameGroup
 end

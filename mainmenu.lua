@@ -21,6 +21,9 @@ function new()
     local button1Press = function( event )
         director:changeScene( "level1","moveFromBottom" )
     end
+
+    local background = display.newImage("Default.png", true)
+    menuGroup:insert( background )
     local button1 = ui.newButton{
         default = "buttonRed.png",
         over = "buttonRedOver.png",
@@ -29,8 +32,8 @@ function new()
         text = "Start!",
         emboss = true
     }
-    button1.x = 160
-    button1.y = 160
+    button1.x = display.contentWidth / 2 
+    button1.y =  display.contentHeight - 50
     menuGroup:insert( button1 )
     -- MUST return a display.newGroup()
 	return menuGroup
